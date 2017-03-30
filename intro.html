@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>2017天府论坛邀请函</title>
+    <link href="css/global.min.css?r=1482387159572" rel="stylesheet" />
+    <link href="css/animate.min.css?r=1482387159572" rel="stylesheet" />
+    <link href="css/style.css?r=1482387159572" rel="stylesheet" />
+    <link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?r=1482387159572" rel="stylesheet" />
+</head>
+
+<body ontouchmove="return false;">
+    <div class="stage-wrap phone-coming" id="js_phone">
+        <h1>川商总会</h1>
+        <div class="phone-control clearfix">
+            <div class="item">
+                <i class="icon-sm icon-bell"></i>
+                <h4>提醒我</h4>
+                <b class="red" id="js_close"><i class="icon-lg icon-phone-shut"></i></b>
+                <h4>拒绝</h4>
+            </div>
+            <div class="item">
+                <i class="icon-sm icon-msg"></i>
+                <h4>信息</h4>
+                <b class="green" id="js_call"><i class="icon-lg icon-phone animated infinite swing"></i></b>
+                <h4>接受</h4>
+            </div>
+        </div>
+    </div>
+    <div class="stage-wrap phone-calling" id="js_calling" style="display:none">
+        <h1>川商总会</h1>
+        <h5 id="js_timer">00:<span id="js_callTime">00</span></h5>
+        <div class="phone-control clearfix">
+            <b class="red" id="js_hang"><i class="icon-lg icon-phone-shut"></i></b>
+        </div>
+    </div>
+    <div class="stage-wrap wechat-msg" id="js_message" style="display:none">
+        <h1 id="js_time">4:07</h1>
+        <h3 id="js_date">12月15日 星期五</h3>
+        <div class="msg-hint animated bounceIn"><img src="img/msg.png?r=1482387159573" /></div>
+        <div class="phone-control clearfix">
+            <h4>点击消息以解锁</h4>
+        </div>
+    </div>
+    <div class="chat" id="js_chat">
+        <div class="box_bd scroll-wrapper">
+            <div class="scroll-content J_scrollContent">
+                <div class="chatContent" id="chatContent">
+
+                </div>
+            </div>
+        </div>
+        <div class="box_ft">
+            <div class="input-wrapper flex-wrap">
+                <div class="flex-item-1"><i class="icon icon-voice"></i></div>
+                <div class="flex-item-7">
+                    <div class="input-wrap">
+                        <form action="">
+                            <input type="text" id="js_input" />
+                        </form>
+                    </div>
+                </div>
+                <div class="flex-item-1"><i class="icon icon-smile"></i></div>
+                <div class="flex-item-1" id="js_add"><i class="icon icon-add"></i></div>
+                <div class="flex-item-1" id="js_submit"><i class="btn-submit">发送</i></div>
+            </div>
+        </div>
+    </div>
+    <div class="poster">
+        <div class="viewer">
+            <div class="img-container"><img src="img/poster.jpg?r=1482387159572" />
+                <a href="http://mobile.globalgase.org/Activity/ActivitySignUp"></a>
+            </div>
+        </div>
+        <i class="arrow-down animated infinite bounce"></i>
+    </div>
+    <div class="final"></div>
+    <script id="messageTpl" type="text/x-dot-template">
+        {{~it :message:index}}
+        <div class="clearfix">
+            {{? message.type == 'system'}}
+            <div class="message">
+                <p class="message_system">
+                    <span class="content">{{=message.content}}</span>
+                </p>
+            </div>
+            {{??}}
+
+            <div class="message {{? message.author.id == 'me'}}me{{??}}others{{?}}">
+                <div class="avatar" data-author-id="{{=message.author.id}}">
+                    <img src="{{=message.author.avatar}}?r=1482387159574" alt="{{=message.author.name}}">
+                </div>
+                <div class="content">
+                    <p class="author_name">{{=message.author.name}}</p>
+                    {{? message.type == 'plain'}}
+                    <div class="bubble {{? message.author.id == 'me'}} bubble_primary right{{??}} bubble_default left{{?}}">
+                        <div class="bubble_cont">
+                            <div class="{{=message.type}}">
+                                <pre>{{=message.content}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    {{?? message.type == 'picture'}}
+                    <div class="bubble {{? message.author.id == 'me'}} right{{??}} left{{?}} bubble_image">
+                        <div class="bubble_cont">
+                            <div class="{{=message.type}}">
+                                {{? message.extra == 'gallery'}}
+                                <img class="J_galleryShow" data-gallery="1" src="{{=message.content}}?r=1482387159572" /> {{??}}
+                                <img class="J_img" src="{{=message.content}}?r=1482387159572" /> {{?}}
+                            </div>
+                        </div>
+                    </div>
+                    {{?? message.type == 'video'}}
+                    <div class="bubble {{? message.author.id == 'me'}} right{{??}} left{{?}} bubble_image">
+                        <div class="bubble_cont">
+                            <div class="{{=message.type}}">
+                                <img class="J_fpVideo" src="{{=message.content.poster}}" data-src="{{=message.content.video}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    {{?? message.type == 'animation'}}
+                    <div class="bubble {{? message.author.id == 'me'}} right{{??}} left{{?}} bubble_image">
+                        <div class="bubble_cont">
+                            <div class="{{=message.type}}">
+                                {{=message.content}}
+                            </div>
+                        </div>
+                    </div>
+                    {{?}}
+                </div>
+            </div>
+            {{?}}
+
+        </div>
+        {{~}}
+    </script>
+    <script src="lib/doT.min.js?r=1482387159572"></script>
+    <script src="lib/jquery-2.1.4.min.js?r=1482387159572"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js?r=1482387159572"></script>
+    <script src="lib/sha1.min.js?r=1482387159572"></script>
+    <script src="lib/Weixin.min.js?r=1482387159572"></script>
+    <script src="lib/ion.sound.min.js?r=1482387159572"></script>
+    <script src="lib/judge.min.js?r=1482387159572"></script>
+    <script src="lib/utils.min.js?r=1482387159572"></script>
+    <script src="js/common.js?r=1482387159573"></script>
+</body>
+
+</html>
